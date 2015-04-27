@@ -1,12 +1,16 @@
 defmodule Riemann.Mixfile do
   use Mix.Project
 
+  @version "0.0.1"
+
   def project do
     [app: :riemann,
-     version: "0.0.1",
+     version: @version,
      elixir: "~> 1.0",
      deps: deps,
-     aliases: [test: "test --no-start"]
+     aliases: [test: "test --no-start"],
+     description: "A client for the Riemann event stream processor",
+     package: package
     ]
   end
 
@@ -36,5 +40,12 @@ defmodule Riemann.Mixfile do
      {:gpb, github: "tomas-abrahamsson/gpb", tag: "3.17.2", override: true},
      {:poolboy, "~> 1.4.2"}
     ]
+  end
+
+  defp package do
+    [contributors: ["Michael Shapiro"],
+     licenses: ["MIT"],
+     links: %{"GitHub": "https://github.com/koudelka/elixir-riemann",
+              "Riemann": "http://riemann.io"}]
   end
 end
