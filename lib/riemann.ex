@@ -46,7 +46,7 @@ defmodule Riemann do
       ])
     ``
   """
-  @spec send(nonempty_list) :: :ok
+  @spec send(nonempty_list) :: :ok | {:error, atom}
   def send(events) do
     do_send(events, :sync)
   end
@@ -54,12 +54,11 @@ defmodule Riemann do
   @doc """
     see `send/1`
   """
-  @spec send(nonempty_list) :: :ok | {:error, atom}
+  @spec send_async(nonempty_list) :: :ok | {:error, atom}
   def send_async(events) do
     do_send(events, :async)
   end
 
-  @spec send(nonempty_list) :: :ok | {:error, atom}
   defp do_send(events, sync) do
     [events: Event.list_to_events(events)]
     |> Msg.new
