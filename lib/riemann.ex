@@ -21,8 +21,8 @@ defmodule Riemann do
 
     address = Application.get_env(:riemann, :address)
     worker_options = [
-      host: address[:host],
-      port: address[:port]
+      host: address[:host] || "127.0.0.1",
+      port: address[:port] || 5555
     ]
 
     children = [
