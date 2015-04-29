@@ -30,4 +30,27 @@ defmodule Riemann.Proto.EventTest do
     assert double == 1234.1234
   end
 
+
+  test "deconstruct/1 properly handles the incoming metric value" do
+    event = Riemann.Proto.Event.new(metric_sint64: 1, metric_d: 2.0, metric_f: 3.0)
+    assert Event.deconstruct(event).metric == 1
+
+    event = Riemann.Proto.Event.new(metric_d: 2.0, metric_f: 3.0)
+    assert Event.deconstruct(event).metric == 2.0
+
+    event = Riemann.Proto.Event.new(metric_f: 3.0)
+    assert Event.deconstruct(event).metric == 3.0
+
+    event = Riemann.Proto.Event.new
+    assert Event.deconstruct(event).metric == nil
+  end
+
+  test "deconstruct/2 converts attributes list to a map" do
+    event = Riemann.Proto.Event.build(attributes: [a: 1, b: 2], metric: 1.0)
+    assert Event.deconstruct(event).attributes == %{"a" => "1", "b" => "2"}
+
+    event = Riemann.Proto.Event.build(attributes: [], metric: 1.0)
+    assert Event.deconstruct(event).attributes == %{}
+  end
+
 end

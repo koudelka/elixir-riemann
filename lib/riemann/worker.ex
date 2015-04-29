@@ -10,6 +10,10 @@ defmodule Riemann.Worker do
   @ok_msg Msg.new(ok: true) |> Msg.encode
   def ok_msg, do: @ok_msg
 
+  @error_msg Msg.new(ok: false) |> Msg.encode
+  def error_msg, do: @error_msg
+
+
   @pool_name :worker_pool
   def pool_name, do: @pool_name
 
@@ -72,13 +76,34 @@ defmodule Riemann.Worker do
     {:noreply, state}
   end
 
-
-  def handle_info({:tcp, _port, @ok_msg}, %State{from: from} = state) when is_tuple(from) do
-    GenServer.reply(from, :ok)
-    handle_info({:tcp, _port, @ok_msg}, %{state | from: nil})
+  # a query that errored
+  def handle_info({:tcp, _port, << @error_msg, rest :: binary >> = msg}, %State{from: from} = state) when is_tuple(from)
+                                                                                                      and bit_size(rest) > 0 do
+    GenServer.reply(from, {:error, Msg.decode(msg)})
+    {:noreply, %{state | from: nil}}
   end
 
+  # a successful query with a list of events
+  def handle_info({:tcp, _port, << @ok_msg, rest :: binary >> = msg}, %State{from: from} = state) when is_tuple(from)
+                                                                                                   and bit_size(rest) > 0 do
+    GenServer.reply(from, {:ok, Msg.decode(msg)})
+    {:noreply, %{state | from: nil}}
+  end
+
+  # a successful event send, or empty query results
+  def handle_info({:tcp, _port, @ok_msg}, %State{from: from} = state) when is_tuple(from) do
+    GenServer.reply(from, :ok)
+    {:noreply, %{state | from: nil}}
+  end
+
+  # the result of an async event send
   def handle_info({:tcp, _port, @ok_msg}, state) do
+    {:noreply, state}
+  end
+
+  # unexpected message
+  def handle_info({:tcp, _port, msg}, state) do
+    Logger.info("Unexpected message from Riemann server: #{inspect msg}")
     {:noreply, state}
   end
 

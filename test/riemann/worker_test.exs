@@ -17,6 +17,10 @@ defmodule Riemann.WorkerTest do
     assert Worker.ok_msg == << 16, 1 >>
   end
 
+  test "error_msg/0 returns a 'not ok' server response" do
+    assert Worker.error_msg == << 16, 0 >>
+  end
+
   test "Worker holds a port after connecting, and dumps it when disconnected" do
     {:ok, worker} = Worker.start_link(Application.get_env(:riemann, :address))
     state = GenServer.call(worker, :state)

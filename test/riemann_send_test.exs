@@ -1,4 +1,4 @@
-defmodule RiemannTest do
+defmodule RiemannSendTest do
   use ExUnit.Case, async: false
   alias Riemann.Proto.Msg
   alias Riemann.Proto.Event
@@ -75,7 +75,6 @@ defmodule RiemannTest do
       Riemann.send_async(events)
     end
   end
-
 
   defp assert_events_received(events) do
     # TestServer sends us a message with what Riemann.send/1 sent it
