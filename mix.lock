@@ -2,4 +2,4 @@
   "exprof": {:hex, :exprof, "0.2.0"},
   "exprotobuf": {:git, "git://github.com/koudelka/exprotobuf.git", "f927ffaf9806bdc8dade83784d80450f49153d16", [branch: "injection-fix"]},
   "gpb": {:git, "git://github.com/tomas-abrahamsson/gpb.git", "cad0d21c8d1867dc7f2ce0f6792c998ffa52fa4b", [tag: "3.17.2"]},
-  "poolboy": {:hex, :poolboy, "1.4.2"}}
+  "poolboy": {:hex, :poolboy, "1.5.1"}}
