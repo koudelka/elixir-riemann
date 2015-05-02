@@ -56,16 +56,6 @@ defmodule Riemann.Worker do
   end
 
 
-  def handle_cast({:send_msg, msg}, state) do
-    case connect(state) do
-      {:ok, tcp} ->
-        :ok = :gen_tcp.send(tcp, Msg.encode(msg))
-        {:noreply, %{state | tcp: tcp}}
-      _error ->
-        {:noreply, %{state | tcp: nil}}
-    end
-  end
-
   # used for testing
   def handle_cast(:disconnect, %State{tcp: tcp} = state) do
     disconnect(tcp)
