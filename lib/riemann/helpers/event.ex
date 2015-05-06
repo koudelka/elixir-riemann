@@ -15,7 +15,9 @@ defmodule Riemann.Helpers.Event do
       end
 
       def build(dict) do
-        hostname = Application.get_env(:riemann, :hostname)
+        {:ok, hostname} = :inet.gethostname
+        hostname = :erlang.list_to_binary(hostname)
+
         dict = Dict.merge([host: hostname, time: now], dict)
 
         dict = case Dict.get(dict, :attributes) do
