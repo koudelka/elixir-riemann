@@ -13,6 +13,10 @@ defmodule Riemann do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
+    {:ok, hostname} = :inet.gethostname
+    hostname = :erlang.list_to_binary(hostname)
+    Application.put_env(:riemann, :hostname, hostname)
+
     pool_options = [
       name: {:local, Worker.pool_name},
       worker_module: Riemann.Worker,

@@ -3,9 +3,6 @@ defmodule Riemann.Helpers.Event do
     quote do
       alias Riemann.Proto.Attribute
 
-      {:ok, hostname} = :inet.gethostname
-      @hostname :erlang.list_to_binary(hostname)
-
       # is_list(hd(list)) detects when it's a list of events, since keyword events are also lists
       # [[service: "a", metric: 1], %{service: "b", metric: 2}]
       def list_to_events(list) when is_list(hd(list)) or is_map(hd(list)) do
@@ -18,7 +15,8 @@ defmodule Riemann.Helpers.Event do
       end
 
       def build(dict) do
-        dict = Dict.merge([host: @hostname, time: now], dict)
+        hostname = Application.get_env(:riemann, :hostname)
+        dict = Dict.merge([host: hostname, time: now], dict)
 
         dict = case Dict.get(dict, :attributes) do
           nil -> dict
