@@ -3,7 +3,7 @@ defmodule Riemann.Helpers.Msg do
     quote do
 
       def send(msg, :sync) do
-        :poolboy.transaction(Riemann.Worker.pool_name, &GenServer.call(&1, {:send_msg, msg}))
+        :poolboy.transaction(Riemann.Worker.pool_name, &GenServer.call(&1, {:send_msg, msg}), :infinity)
       end
 
       def send(msg, :async) do

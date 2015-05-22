@@ -93,7 +93,7 @@ defmodule Riemann.Worker do
 
   # unexpected message
   def handle_info({:tcp, _port, msg}, state) do
-    Logger.info("Unexpected message from Riemann server: #{inspect msg}")
+    Logger.warn("Unexpected message from Riemann server: #{inspect msg}")
     {:noreply, state}
   end
 
