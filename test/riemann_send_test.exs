@@ -4,7 +4,7 @@ defmodule RiemannSendTest do
   alias Riemann.Proto.Event
 
   setup do
-    {:ok, server} = TestServer.start(Riemann.Worker.ok_msg, self)
+    {:ok, server} = TestServer.start(Riemann.Connection.ok_msg, self)
     Application.start(:riemann)
 
     on_exit fn ->

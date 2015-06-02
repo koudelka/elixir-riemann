@@ -3,12 +3,11 @@ defmodule Riemann.Helpers.Msg do
     quote do
 
       def send(msg, :sync) do
-        :poolboy.transaction(Riemann.Worker.pool_name, &GenServer.call(&1, {:send_msg, msg}), :infinity)
+        Riemann.Worker.call(:pool, {:send_msg, [msg]})
       end
 
       def send(msg, :async) do
-        # since this is a "fire and forget" event send, we want to wait forever for an available worker
-        :poolboy.transaction(Riemann.Worker.pool_name, &GenServer.call(&1, {:send_msg, msg}), :infinity)
+        Riemann.Worker.cast(:pool, {:send_msg, [msg]})
       end
 
     end

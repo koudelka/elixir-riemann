@@ -1,6 +1,5 @@
 defmodule Riemann do
   use Application
-  alias Riemann.Worker
   alias Riemann.Proto.Msg
   alias Riemann.Proto.Event
   alias Riemann.Proto.Query
@@ -13,13 +12,6 @@ defmodule Riemann do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-    pool_options = [
-      name: {:local, Worker.pool_name},
-      worker_module: Riemann.Worker,
-      size: 6,
-      max_overflow: 10
-    ]
-
     address = Application.get_env(:riemann, :address)
     worker_options = [
       host: address[:host] || "127.0.0.1",
@@ -27,7 +19,7 @@ defmodule Riemann do
     ]
 
     children = [
-      :poolboy.child_spec(Worker.pool_name, pool_options, worker_options)
+      Honeydew.child_spec(:pool, Riemann.Worker, worker_options)
     ]
 
     opts = [strategy: :one_for_one]
@@ -61,8 +53,7 @@ defmodule Riemann do
   end
 
   @doc false
-  # queries are often goes to include double quotes, so
-  # we'll support using char lists (single quotes)
+  # queries are often going to include double quotes, so we'll support using char lists (single quotes)
   # ex: 'service = "my service"'
   def query(query_str) when is_list(query_str) do
     query_str

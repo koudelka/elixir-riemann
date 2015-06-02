@@ -1,7 +1,7 @@
 defmodule Riemann.Mixfile do
   use Mix.Project
 
-  @version "0.0.6"
+  @version "0.0.7"
 
   def project do
     [app: :riemann,
@@ -26,7 +26,7 @@ defmodule Riemann.Mixfile do
      {:exprotobuf, github: "koudelka/exprotobuf", branch: "injection-fix"},
      # {:exprotobuf, "~> 0.8.5"},
      {:gpb, github: "tomas-abrahamsson/gpb", tag: "3.17.2", override: true},
-     {:poolboy, "~> 1.5.1"}
+     {:honeydew, "~> 0.0.2"}
     ]
   end
 
