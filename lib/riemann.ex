@@ -40,8 +40,10 @@ defmodule Riemann do
     ``
   """
   @spec send(nonempty_list) :: :ok | {:error, atom}
-  def send(events) do
-    do_send(events, :sync)
+  def send(events, timeout \\ 5000) do
+    events
+    |> create_events_msg
+    |> Msg.send(timeout)
   end
 
   @doc """
@@ -49,7 +51,9 @@ defmodule Riemann do
   """
   @spec send_async(nonempty_list) :: :ok | {:error, atom}
   def send_async(events) do
-    do_send(events, :async)
+    events
+    |> create_events_msg
+    |> Msg.send_async
   end
 
   @doc false
@@ -68,7 +72,7 @@ defmodule Riemann do
   def query(query_str) do
     [query: Query.new(string: query_str)]
     |> Msg.new
-    |> Msg.send(:sync)
+    |> Msg.send
     |> case do
          :ok -> {:ok, []}
          {:ok, msg} -> {:ok, Event.deconstruct(msg.events)}
@@ -77,9 +81,8 @@ defmodule Riemann do
   end
 
 
-  defp do_send(events, sync) do
+  defp create_events_msg(events) do
     [events: Event.list_to_events(events)]
     |> Msg.new
-    |> Msg.send(sync)
   end
 end

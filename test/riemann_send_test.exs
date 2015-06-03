@@ -15,7 +15,7 @@ defmodule RiemannSendTest do
     {:ok, server: server}
   end
 
-  test "send/1 and send_async/1 send a single event" do
+  test "send/2 and send_async/1 send a single event" do
     event = [
       service: "riemann-elixir",
       metric: 1,
@@ -30,7 +30,7 @@ defmodule RiemannSendTest do
     assert_events_received(event)
   end
 
-  test "send/1 and send_async/1 send many events" do
+  test "send/2 and send_async/1 send many events" do
     events = [
       [
         service: "riemann-elixir",
@@ -58,7 +58,7 @@ defmodule RiemannSendTest do
     assert_events_received(events)
   end
 
-  test "send/1 and send_async/1 raise if metric is missing" do
+  test "send/2 and send_async/1 raise if metric is missing" do
     events = [
       [
         service: "riemann-elixir",
@@ -76,8 +76,21 @@ defmodule RiemannSendTest do
     end
   end
 
+  test "send/2 should accept a timeout" do
+    events = [
+      [
+        service: "riemann-elixir",
+        metric: 1,
+        attributes: [a: 1],
+        description: "hurr durr"
+      ]
+    ]
+
+    assert {:timeout, _details} = catch_exit(Riemann.send(events, 0))
+  end
+
   defp assert_events_received(events) do
-    # TestServer sends us a message with what Riemann.send/1 sent it
+    # TestServer sends us a message with what Riemann.send/2 sent it
     receive do
       msg -> assert Event.list_to_events(events) == Msg.decode(msg).events
     after 100 -> flunk
