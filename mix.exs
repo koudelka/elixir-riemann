@@ -24,9 +24,7 @@ defmodule Riemann.Mixfile do
   defp deps do
     [
      {:exprotobuf, github: "koudelka/exprotobuf", branch: "injection-fix"},
-     # {:exprotobuf, "~> 0.8.5"},
-     {:gpb, github: "tomas-abrahamsson/gpb", tag: "3.17.2", override: true},
-     {:honeydew, "~> 0.0.2"}
+     {:honeydew, "~> 0.0.4"}
     ]
   end
 
