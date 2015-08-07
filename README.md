@@ -9,8 +9,7 @@ Chuck this into your project config:
 
 ```elixir
 defp deps do
-  [{:riemann, " ~> 0.0.9"},
-  {:exprotobuf, github: "koudelka/exprotobuf", branch: "injection-fix"}]
+  [{:riemann, " ~> 0.0.10"},
 end
 ```
 
