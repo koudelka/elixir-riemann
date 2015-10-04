@@ -1,3 +1,3 @@
 %{"exprotobuf": {:hex, :exprotobuf, "0.11.0"},
-  "gpb": {:hex, :gpb, "3.18.7"},
-  "honeydew": {:hex, :honeydew, "0.0.4"}}
+  "gpb": {:hex, :gpb, "3.18.8"},
+  "honeydew": {:hex, :honeydew, "0.0.8"}}

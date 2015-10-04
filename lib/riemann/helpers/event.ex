@@ -18,7 +18,7 @@ defmodule Riemann.Helpers.Event do
         {:ok, hostname} = :inet.gethostname
         hostname = :erlang.list_to_binary(hostname)
 
-        dict = Dict.merge([host: hostname, time: now], dict)
+        dict = Dict.merge([host: hostname, time: :erlang.system_time(:seconds)], dict)
 
         dict = case Dict.get(dict, :attributes) do
           nil -> dict
@@ -53,11 +53,6 @@ defmodule Riemann.Helpers.Event do
         |> Dict.delete(:metric_f)
         |> Dict.delete(:metric_sint64)
         |> Dict.put(:attributes, attributes)
-      end
-
-      defp now do
-        {mega_secs, secs, _} = :erlang.now
-        (mega_secs * 1_000_000) + secs
       end
 
     end
