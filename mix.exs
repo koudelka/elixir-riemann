@@ -17,7 +17,7 @@ defmodule Riemann.Mixfile do
   def application do
     [
       mod: { Riemann, [] },
-      applications: [:logger]
+      applications: [:logger, :honeydew]
     ]
   end
 
