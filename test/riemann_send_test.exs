@@ -3,16 +3,24 @@ defmodule RiemannSendTest do
   alias Riemann.Proto.Msg
   alias Riemann.Proto.Event
 
+  setup_all do
+    Application.start(:gpb)
+    Application.start(:exprotobuf)
+    Application.start(:honeydew)
+
+    :ok
+  end
+
   setup do
     {:ok, server} = TestServer.start(Riemann.Connection.ok_msg, self)
-    Application.start(:riemann)
+    :ok = Application.start(:riemann)
 
     on_exit fn ->
       Application.stop(:riemann)
       TestServer.stop(server)
     end
 
-    {:ok, server: server}
+    :ok
   end
 
   test "send/2 and send_async/1 send a single event" do

@@ -3,6 +3,13 @@ defmodule RiemannQueryTest do
   alias Riemann.Proto.Msg
   alias Riemann.Proto.Event
 
+  setup_all do
+    Application.start(:gpb)
+    Application.start(:exprotobuf)
+    Application.start(:honeydew)
+
+    :ok
+  end
 
   test "query/1 finds events" do
     constructed_events = [%Event{attributes: [%Riemann.Proto.Attribute{key: "build", value: "7543"}],
