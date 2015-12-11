@@ -1,5 +1,5 @@
 use Mix.Config
 
 config :riemann, :address,
-    host: "127.0.0.1",
-    port: 5555
+  host: "127.0.0.1",
+  port: 5555

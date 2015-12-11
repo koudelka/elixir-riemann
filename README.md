@@ -53,8 +53,8 @@ Just toss this snippet into your environment's config:
 
 ```elixir
 config :riemann, :address,
-    host: "127.0.0.1",
-    port: 5555
+  host: "127.0.0.1",
+  port: 5555
 ```
 
 You can also set a hostname for events to override the default (the machine's name).
