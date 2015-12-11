@@ -3,6 +3,8 @@ defmodule Riemann.Helpers.Event do
     quote do
       alias Riemann.Proto.Attribute
 
+      @event_host Application.get_env(:riemann, :event_host)
+
       # is_list(hd(list)) detects when it's a list of events, since keyword events are also lists
       # [[service: "a", metric: 1], %{service: "b", metric: 2}]
       def list_to_events(list) when is_list(hd(list)) or is_map(hd(list)) do
@@ -15,8 +17,10 @@ defmodule Riemann.Helpers.Event do
       end
 
       def build(dict) do
+        # i'd move this to a module attribute, but we can't assume that the build host is the runtime host.
+        # could also stick it in the process dictionary if it's an issue
         {:ok, hostname} = :inet.gethostname
-        hostname = :erlang.list_to_binary(hostname)
+        hostname = @event_host || :erlang.list_to_binary(hostname)
 
         dict = Dict.merge([host: hostname, time: :erlang.system_time(:seconds)], dict)
 

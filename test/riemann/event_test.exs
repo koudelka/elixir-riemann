@@ -1,14 +1,34 @@
 defmodule Riemann.Proto.EventTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   alias Riemann.Proto.Event
   alias Riemann.Proto.Attribute
 
-  test "build/1 adds hostname and time" do
-    %{host: host, time: time} = Event.build(metric: 1)
-
+  test "build/1 adds hostname" do
+    %{host: host} = Event.build(metric: 1)
     actual_hostname = :inet.gethostname |> Tuple.to_list |> List.last |> :erlang.list_to_binary
+    assert host == actual_hostname
 
-    assert actual_hostname == host
+    %{host: host} = Event.build(metric: 1, host: "overridden")
+    assert host == "overridden"
+
+    orig_event_host = Application.get_env(:riemann, :event_host)
+    Application.put_env(:riemann, :event_host, "default host")
+
+    defmodule TestEvent do
+      use Riemann.Helpers.Event
+
+      def new(args), do: Event.new(args)
+    end
+
+    %{host: host} = TestEvent.build(metric: 1)
+    assert host == "default host"
+
+    Application.put_env(:riemann, :event_host, orig_event_host)
+  end
+
+  test "build/1 adds time" do
+    %{time: time} = Event.build(metric: 1)
+
     assert is_integer(time)
     assert time > 1429752659
   end

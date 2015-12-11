@@ -57,6 +57,12 @@ config :riemann, :address,
     port: 5555
 ```
 
+You can also set a hostname for events to override the default (the machine's name).
+
+```elixir
+config :riemann, event_host: "app host (staging)"
+```
+
 ## Caveats
   - Only TCP is supported, read [this](http://riemann.io/howto.html#what-protocol-should-i-use-to-talk-to-riemann).
 
