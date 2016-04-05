@@ -19,7 +19,7 @@ defmodule Riemann do
     ]
 
     children = [
-      Honeydew.child_spec(:pool, Riemann.Worker, worker_options)
+      Honeydew.child_spec(:pool, Riemann.Worker, worker_options, max_failures: 1)
     ]
 
     opts = [strategy: :one_for_one]
