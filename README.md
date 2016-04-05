@@ -1,4 +1,5 @@
 Riemann
+
 =======
 
 Riemann is (surprise!) a [Riemann](http://riemann.io) client for [Elixir](http://elixir-lang.org).
@@ -9,7 +10,7 @@ Chuck this into your project config:
 
 ```elixir
 defp deps do
-  [{:riemann, " ~> 0.0.14"},
+  [{:riemann, " ~> 0.0.15"},
 end
 ```
 
