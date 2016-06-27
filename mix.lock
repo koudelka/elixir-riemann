@@ -1,3 +1,3 @@
-%{"exprotobuf": {:hex, :exprotobuf, "0.13.0"},
-  "gpb": {:hex, :gpb, "3.18.10"},
-  "honeydew": {:hex, :honeydew, "0.0.9"}}
+%{"exprotobuf": {:hex, :exprotobuf, "1.0.0", "51795648cab620bb792abf9d9153619bd642cbb87ce2d49d2e590d0c9bf6e65f", [:mix], [{:gpb, "~> 3.18.6", [hex: :gpb, optional: false]}]},
+  "gpb": {:hex, :gpb, "3.18.10", "0790a23a3d50957e96ff4ad95d3702d4310abb44d436f53835a74462145d957a", [:rebar, :make], []},
+  "honeydew": {:hex, :honeydew, "0.0.10", "9f19ef5caccfb02892814e937215ef5eee630fbb0599cb95df13bb5073cbdb70", [:mix], []}}

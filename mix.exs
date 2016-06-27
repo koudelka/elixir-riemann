@@ -6,7 +6,7 @@ defmodule Riemann.Mixfile do
   def project do
     [app: :riemann,
      version: @version,
-     elixir: "~> 1.2.3",
+     elixir: "~> 1.3",
      deps: deps,
      aliases: [test: "test --no-start"],
      description: "A client for the Riemann event stream processor",
@@ -23,8 +23,8 @@ defmodule Riemann.Mixfile do
 
   defp deps do
     [
-     {:exprotobuf, "~> 0.13.0"},
-     {:honeydew, "~> 0.0.9"}
+     {:exprotobuf, "~> 1.0.0"},
+     {:honeydew, "~> 0.0.10"}
     ]
   end
 
