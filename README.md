@@ -10,7 +10,7 @@ Chuck this into your project config:
 
 ```elixir
 defp deps do
-  [{:riemann, " ~> 0.0.15"},
+  [{:riemann, " ~> 0.0.16"},
 end
 ```
 

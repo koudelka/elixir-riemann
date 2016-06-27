@@ -1,7 +1,7 @@
 defmodule Riemann.Mixfile do
   use Mix.Project
 
-  @version "0.0.15"
+  @version "0.0.16"
 
   def project do
     [app: :riemann,
