@@ -1,5 +1,4 @@
 Riemann
-
 =======
 
 Riemann is (surprise!) a [Riemann](http://riemann.io) client for [Elixir](http://elixir-lang.org).
