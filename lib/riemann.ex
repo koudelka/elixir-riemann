@@ -13,13 +13,14 @@ defmodule Riemann do
     import Supervisor.Spec, warn: false
 
     address = Application.get_env(:riemann, :address)
-    worker_options = [
+    args = [
       host: address[:host] || "127.0.0.1",
       port: address[:port] || 5555
     ]
 
     children = [
-      Honeydew.child_spec(:pool, Riemann.Worker, worker_options, max_failures: 1)
+      Honeydew.queue_spec(:riemann_pool, failure_mode: Honeydew.FailureMode.Abandon),
+      Honeydew.worker_spec(:riemann_pool, Riemann.Worker, args: args)
     ]
 
     opts = [strategy: :one_for_one]

@@ -94,7 +94,7 @@ defmodule RiemannSendTest do
       ]
     ]
 
-    assert {:timeout, _details} = catch_exit(Riemann.send(events, 0))
+    assert :timeout = Riemann.send(events, 0)
   end
 
   defp assert_events_received(events) do

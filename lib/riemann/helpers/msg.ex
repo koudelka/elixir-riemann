@@ -1,13 +1,17 @@
 defmodule Riemann.Helpers.Msg do
   defmacro __using__(_opts) do
     quote do
+      alias Riemann.Worker
 
       def send(msg, timeout \\ 5000) do
-        Riemann.Worker.call(:pool, {:send_msg, [msg]}, timeout)
+        case Worker.async({:send_msg, [msg]}, :riemann_pool) |> Worker.yield(timeout) do
+          {:ok, ok} -> ok
+          nil -> :timeout
+        end
       end
 
       def send_async(msg) do
-        Riemann.Worker.cast(:pool, {:send_msg, [msg]})
+        Worker.async({:send_msg, [msg]}, :riemann_pool, reply: false)
       end
 
     end
