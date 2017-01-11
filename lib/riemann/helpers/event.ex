@@ -12,8 +12,8 @@ defmodule Riemann.Helpers.Event do
       end
 
       # [service: "a", metric: 1]
-      def list_to_events(dict) do
-        [dict] |> list_to_events
+      def list_to_events(keyword) do
+        [keyword] |> list_to_events
       end
 
       def build(dict) do
@@ -22,19 +22,20 @@ defmodule Riemann.Helpers.Event do
         {:ok, hostname} = :inet.gethostname
         hostname = @event_host || :erlang.list_to_binary(hostname)
 
-        dict = Dict.merge([host: hostname, time: :erlang.system_time(:seconds)], dict)
+        dict = Enum.into(dict, %{})
+        dict = Map.merge(%{host: hostname, time: :erlang.system_time(:seconds)}, dict)
+        dict = case Map.get(dict, :attributes) do
+                 nil -> dict
+                 a   -> Map.put(dict, :attributes, Attribute.build(a))
+               end
 
-        dict = case Dict.get(dict, :attributes) do
-          nil -> dict
-          a   -> Dict.put(dict, :attributes, Attribute.build(a))
-        end
-
-        case Dict.get(dict, :metric) do
-          i when is_integer(i) -> Dict.put(dict, :metric_sint64, i)
-          f when is_float(f)   -> Dict.put(dict, :metric_d, f)
+        case Map.get(dict, :metric) do
+          i when is_integer(i) -> Map.put(dict, :metric_sint64, i)
+          f when is_float(f)   -> Map.put(dict, :metric_d, f)
           nil -> raise ArgumentError, "no metric provided for dict #{inspect dict}"
         end
-        |> new
+        |> Map.to_list
+        |> new()
       end
 
 
@@ -48,15 +49,15 @@ defmodule Riemann.Helpers.Event do
       def deconstruct(event), do: deconstruct(event, nil)
 
       def deconstruct(event, metric) do
-        attributes = Enum.reduce(event.attributes, %{}, &Dict.put(&2, &1.key, &1.value))
+        attributes = Enum.reduce(event.attributes, %{}, &Map.put(&2, &1.key, &1.value))
 
         event
         |> Map.from_struct
-        |> Dict.put(:metric, metric)
-        |> Dict.delete(:metric_d)
-        |> Dict.delete(:metric_f)
-        |> Dict.delete(:metric_sint64)
-        |> Dict.put(:attributes, attributes)
+        |> Map.put(:metric, metric)
+        |> Map.delete(:metric_d)
+        |> Map.delete(:metric_f)
+        |> Map.delete(:metric_sint64)
+        |> Map.put(:attributes, attributes)
       end
 
     end

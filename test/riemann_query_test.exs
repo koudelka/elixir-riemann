@@ -6,6 +6,7 @@ defmodule RiemannQueryTest do
   setup_all do
     Application.start(:gpb)
     Application.start(:exprotobuf)
+    Application.start(:gen_stage)
     Application.start(:honeydew)
 
     :ok
@@ -24,7 +25,7 @@ defmodule RiemannQueryTest do
    msg = Msg.new(ok: true, events: constructed_events) |> Msg.encode
 
    {:ok, server} = TestServer.start(msg, self)
-   Application.start(:riemann)
+   :ok = Application.start(:riemann)
 
    query = "dummy query"
    {:ok, events} = Riemann.query(query)

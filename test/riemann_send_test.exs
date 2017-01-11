@@ -6,6 +6,7 @@ defmodule RiemannSendTest do
   setup_all do
     Application.start(:gpb)
     Application.start(:exprotobuf)
+    Application.start(:gen_stage)
     Application.start(:honeydew)
 
     :ok

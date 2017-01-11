@@ -19,8 +19,8 @@ defmodule Riemann do
     ]
 
     children = [
-      Honeydew.queue_spec(:riemann_pool, failure_mode: Honeydew.FailureMode.Abandon),
-      Honeydew.worker_spec(:riemann_pool, Riemann.Worker, args: args)
+      Honeydew.queue_spec(:riemann_pool),
+      Honeydew.worker_spec(:riemann_pool, {Riemann.Worker, args})
     ]
 
     opts = [strategy: :one_for_one]

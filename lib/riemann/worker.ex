@@ -1,5 +1,4 @@
 defmodule Riemann.Worker do
-  use Honeydew
   alias Riemann.Connection
 
   def init(args) do

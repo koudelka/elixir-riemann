@@ -6,18 +6,18 @@ defmodule Riemann.Mixfile do
   def project do
     [app: :riemann,
      version: @version,
-     elixir: "~> 1.3",
-     deps: deps,
+     elixir: "~> 1.4",
+     deps: deps(),
      aliases: [test: "test --no-start"],
      description: "A client for the Riemann event stream processor",
-     package: package
+     package: package()
     ]
   end
 
   def application do
     [
       mod: { Riemann, [] },
-      applications: [:logger, :honeydew, :exprotobuf]
+      extra_applications: [:logger]
     ]
   end
 

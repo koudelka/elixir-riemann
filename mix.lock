@@ -1,4 +1,4 @@
 %{"exprotobuf": {:hex, :exprotobuf, "1.0.2", "71056a3547eb37e53d64d892d4bc7a5d8d6355f48070e646357c6ed64571bfea", [:mix], [{:gpb, "~> 3.23.2", [hex: :gpb, optional: false]}]},
-  "gen_stage": {:hex, :gen_stage, "0.9.0", "9daf0b5ae224405e0456b7df5a282a9a958176cdb9b963811ca38140e7e1b3c4", [:mix], []},
+  "gen_stage": {:hex, :gen_stage, "0.10.0", "ce1eb93a3f9708f2e215f70b3d3c7f55dea4a4ed7e9615195e28d543c9086656", [:mix], []},
   "gpb": {:hex, :gpb, "3.23.2", "dfabca052f8f4a8c6f98d43c6653e0037416537a9e5a747019f4ef53713982e3", [:make, :rebar], []},
-  "honeydew": {:git, "https://github.com/koudelka/honeydew.git", "6b9b31c3cd6fed891223c485ffabc1dac58dd5d0", [branch: "gen_stage"]}}
+  "honeydew": {:git, "https://github.com/koudelka/honeydew.git", "0c00d05fd8b3d49122bb6af95409d2eebeca0ee9", [branch: "gen_stage"]}}
