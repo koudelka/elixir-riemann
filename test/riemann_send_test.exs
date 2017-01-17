@@ -13,7 +13,7 @@ defmodule RiemannSendTest do
   end
 
   setup do
-    {:ok, server} = TestServer.start(Riemann.Connection.ok_msg, self)
+    {:ok, server} = TestServer.start(Riemann.Connection.ok_msg, self())
     :ok = Application.start(:riemann)
 
     on_exit fn ->
@@ -102,7 +102,7 @@ defmodule RiemannSendTest do
     # TestServer sends us a message with what Riemann.send/2 sent it
     receive do
       msg -> assert Event.list_to_events(events) == Msg.decode(msg).events
-    after 100 -> flunk
+    after 100 -> flunk()
     end
   end
 end

@@ -4,7 +4,7 @@ defmodule Riemann.ConnectionTest do
   alias Riemann.Proto.Msg
 
   setup do
-    {:ok, server} = TestServer.start(Riemann.Connection.ok_msg, self)
+    {:ok, server} = TestServer.start(Riemann.Connection.ok_msg, self())
 
     on_exit fn ->
       TestServer.stop(server)

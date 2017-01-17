@@ -24,7 +24,7 @@ defmodule Riemann.Mixfile do
   defp deps do
     [
      {:exprotobuf, "~> 1.0.0"},
-     {:honeydew, github: "koudelka/honeydew", branch: "gen_stage"},
+     {:honeydew, "~> 1.0.0-rc1"}
     ]
   end
 

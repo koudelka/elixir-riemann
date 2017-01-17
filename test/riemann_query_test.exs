@@ -24,7 +24,7 @@ defmodule RiemannQueryTest do
 
    msg = Msg.new(ok: true, events: constructed_events) |> Msg.encode
 
-   {:ok, server} = TestServer.start(msg, self)
+   {:ok, server} = TestServer.start(msg, self())
    :ok = Application.start(:riemann)
 
    query = "dummy query"
@@ -47,7 +47,7 @@ defmodule RiemannQueryTest do
   test "query/1 finds no events" do
    msg = Msg.new(ok: false, error: "some error message") |> Msg.encode
 
-   {:ok, server} = TestServer.start(msg, self)
+   {:ok, server} = TestServer.start(msg, self())
    Application.start(:riemann)
 
    query = "dummy query"
@@ -66,7 +66,7 @@ defmodule RiemannQueryTest do
     # TestServer sends us a message with what Riemann.query/1 sent it
     receive do
       msg -> assert query == Msg.decode(msg).query.string
-    after 100 -> flunk
+    after 100 -> flunk()
     end
   end
 end
