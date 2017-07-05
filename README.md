@@ -1,4 +1,4 @@
-Riemann
+Riemann [![Build Status](https://travis-ci.org/koudelka/elixir-riemann.svg?branch=master)](https://travis-ci.org/koudelka/elixir-riemann)
 =======
 
 Riemann is (surprise!) a [Riemann](http://riemann.io) client for [Elixir](http://elixir-lang.org).
