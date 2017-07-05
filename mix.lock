@@ -1,6 +1,6 @@
-%{"earmark": {:hex, :earmark, "1.1.1", "433136b7f2e99cde88b745b3a0cfc3fbc81fe58b918a09b40fce7f00db4d8187", [:mix], []},
-  "ex_doc": {:hex, :ex_doc, "0.14.5", "c0433c8117e948404d93ca69411dd575ec6be39b47802e81ca8d91017a0cf83c", [:mix], [{:earmark, "~> 1.0", [hex: :earmark, optional: false]}]},
-  "exprotobuf": {:hex, :exprotobuf, "1.0.2", "71056a3547eb37e53d64d892d4bc7a5d8d6355f48070e646357c6ed64571bfea", [:mix], [{:gpb, "~> 3.23.2", [hex: :gpb, optional: false]}]},
+%{"earmark": {:hex, :earmark, "1.1.1", "433136b7f2e99cde88b745b3a0cfc3fbc81fe58b918a09b40fce7f00db4d8187", [:mix], [], "hexpm"},
+  "ex_doc": {:hex, :ex_doc, "0.14.5", "c0433c8117e948404d93ca69411dd575ec6be39b47802e81ca8d91017a0cf83c", [:mix], [{:earmark, "~> 1.0", [hex: :earmark, repo: "hexpm", optional: false]}], "hexpm"},
+  "exprotobuf": {:hex, :exprotobuf, "1.0.2", "71056a3547eb37e53d64d892d4bc7a5d8d6355f48070e646357c6ed64571bfea", [:mix], [{:gpb, "~> 3.23.2", [hex: :gpb, repo: "hexpm", optional: false]}], "hexpm"},
   "gen_stage": {:hex, :gen_stage, "0.10.0", "ce1eb93a3f9708f2e215f70b3d3c7f55dea4a4ed7e9615195e28d543c9086656", [:mix], []},
-  "gpb": {:hex, :gpb, "3.23.2", "dfabca052f8f4a8c6f98d43c6653e0037416537a9e5a747019f4ef53713982e3", [:make, :rebar], []},
-  "honeydew": {:hex, :honeydew, "1.0.0-rc2", "9b6ddce17687cfe7687b1ec6805f7ec9b18bb93a1cc50088cefd873013666bc0", [:mix], []}}
+  "gpb": {:hex, :gpb, "3.23.2", "dfabca052f8f4a8c6f98d43c6653e0037416537a9e5a747019f4ef53713982e3", [:make, :rebar], [], "hexpm"},
+  "honeydew": {:hex, :honeydew, "1.0.0-rc2", "9b6ddce17687cfe7687b1ec6805f7ec9b18bb93a1cc50088cefd873013666bc0", [:mix], [], "hexpm"}}
