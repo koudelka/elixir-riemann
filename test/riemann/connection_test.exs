@@ -3,6 +3,8 @@ defmodule Riemann.ConnectionTest do
   alias Riemann.Connection
   alias Riemann.Proto.Msg
 
+  import ExUnit.CaptureLog
+
   setup do
     {:ok, server} = TestServer.start(Riemann.Connection.ok_msg, self())
 
@@ -26,10 +28,12 @@ defmodule Riemann.ConnectionTest do
     state = :sys.get_state(connection)
     assert is_port(state.tcp)
 
-    TestServer.stop(context[:server])
+    capture_log(fn ->
+      TestServer.stop(context[:server])
 
-    :timer.sleep 10 # wait for the connection-dropped message to arrive
-    refute Process.alive?(connection)
+      :timer.sleep 10 # wait for the connection-dropped message to arrive
+      refute Process.alive?(connection)
+    end) =~ ":tcp_closed"
   end
 
   test "Connection sends messages encoded" do
