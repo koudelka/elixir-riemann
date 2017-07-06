@@ -3,4 +3,4 @@
   "exprotobuf": {:hex, :exprotobuf, "1.2.7", "287e2a1239fa9924c71815b1961e6e97d55c13496e9feb4ad755706af105ec36", [:mix], [{:gpb, "~> 3.24", [hex: :gpb, repo: "hexpm", optional: false]}], "hexpm"},
   "gen_stage": {:hex, :gen_stage, "0.10.0", "ce1eb93a3f9708f2e215f70b3d3c7f55dea4a4ed7e9615195e28d543c9086656", [:mix], []},
   "gpb": {:hex, :gpb, "3.27.2", "6053d63f10a0e6f2258143b8754172a2ed053e7e7eddbe880aa15d1ad4f5ba33", [:make, :rebar], [], "hexpm"},
-  "honeydew": {:hex, :honeydew, "1.0.0-rc2", "9b6ddce17687cfe7687b1ec6805f7ec9b18bb93a1cc50088cefd873013666bc0", [:mix], [], "hexpm"}}
+  "honeydew": {:hex, :honeydew, "1.0.0-rc7", "4299cefcfcf7f84d15a2ceaabd6bccd6bbcdf2ad02db4c66953bade0f1cbc4d7", [:mix], [], "hexpm"}}
