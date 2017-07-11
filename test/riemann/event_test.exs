@@ -23,6 +23,13 @@ defmodule Riemann.Proto.EventTest do
       def new(args), do: Event.new(args)
     end
 
+    test "grabs the hostname from the :event_host setting" do
+      Application.put_env(:riemann, :event_host, "default host")
+
+      %{host: host} = TestEvent.build(metric: 1)
+      assert host == "default host"
+    end
+
     test "adds time" do
       %{time: time} = Event.build(metric: 1)
 
