@@ -1,9 +1,9 @@
 defmodule Riemann.Helpers.Event do
+  alias Riemann.Proto.Attribute
+
   defmacro __using__(_opts) do
     quote do
       alias Riemann.Proto.Attribute
-
-      @event_host Application.get_env(:riemann, :event_host)
 
       # is_list(hd(list)) detects when it's a list of events, since keyword events are also lists
       # [[service: "a", metric: 1], %{service: "b", metric: 2}]
@@ -17,27 +17,10 @@ defmodule Riemann.Helpers.Event do
       end
 
       def build(dict) do
-        # i'd move this to a module attribute, but we can't assume that the build host is the runtime host.
-        # could also stick it in the process dictionary if it's an issue
-        {:ok, hostname} = :inet.gethostname
-        hostname = @event_host || :erlang.list_to_binary(hostname)
-
-        dict = Enum.into(dict, %{})
-        dict = Map.merge(%{host: hostname, time: :erlang.system_time(:seconds)}, dict)
-        dict = case Map.get(dict, :attributes) do
-                 nil -> dict
-                 a   -> Map.put(dict, :attributes, Attribute.build(a))
-               end
-
-        case Map.get(dict, :metric) do
-          i when is_integer(i) -> Map.put(dict, :metric_sint64, i)
-          f when is_float(f)   -> Map.put(dict, :metric_d, f)
-          nil -> raise ArgumentError, "no metric provided for dict #{inspect dict}"
-        end
-        |> Map.to_list
-        |> new()
+        # Note: unquote(__MODULE__) is the module that's defined in this file
+        # and __MODULE__ is the module that's using this module.
+        unquote(__MODULE__).build(dict, __MODULE__)
       end
-
 
       def deconstruct(events) when is_list(events) do
         Enum.map(events, &deconstruct/1)
@@ -59,7 +42,46 @@ defmodule Riemann.Helpers.Event do
         |> Map.delete(:metric_sint64)
         |> Map.put(:attributes, attributes)
       end
-
     end
+  end
+
+  @moduledoc false
+  def build(args, mod) do
+    args
+    |> Enum.into(%{})
+    |> Map.put_new(:time, :erlang.system_time(:seconds))
+    |> Map.put_new_lazy(:host, &default_event_host/0)
+    |> set_attributes_field
+    |> set_metric_pb_fields
+    |> Map.to_list
+    |> mod.new()
+  end
+
+  defp default_event_host do
+    event_host_setting() || machine_hostname()
+  end
+
+  defp set_attributes_field(map) do
+    case Map.get(map, :attributes) do
+      nil -> map
+      a   -> Map.put(map, :attributes, Attribute.build(a))
+    end
+  end
+
+  defp set_metric_pb_fields(map) do
+    case Map.get(map, :metric) do
+      i when is_integer(i) -> Map.put(map, :metric_sint64, i)
+      f when is_float(f)   -> Map.put(map, :metric_d, f)
+      nil -> raise ArgumentError, "no metric provided for #{inspect map}"
+    end
+  end
+
+  defp event_host_setting do
+    Application.get_env(:riemann, :event_host)
+  end
+
+  defp machine_hostname do
+    {:ok, hostname} = :inet.gethostname
+    :erlang.list_to_binary(hostname)
   end
 end
