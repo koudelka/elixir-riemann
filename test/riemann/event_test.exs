@@ -2,6 +2,7 @@ defmodule Riemann.Proto.EventTest do
   use ExUnit.Case, async: false
   alias Riemann.Proto.Event
   alias Riemann.Proto.Attribute
+  alias Riemann.InvalidMetricError
 
   describe "build/1" do
     setup :ensure_event_host_is_reset
@@ -65,6 +66,20 @@ defmodule Riemann.Proto.EventTest do
     test "raises an error with a nil metric" do
       assert_raise ArgumentError, ~r/no metric provided/i, fn ->
         Event.build(metric: nil)
+      end
+    end
+
+    test "raises an error on invalid metric data types" do
+      assert_raise InvalidMetricError, fn ->
+        Event.build(metric: %{count: 1})
+      end
+
+      assert_raise InvalidMetricError, fn ->
+        Event.build(metric: [1, 2, 3])
+      end
+
+      assert_raise InvalidMetricError, fn ->
+        Event.build(metric: "hello")
       end
     end
   end
