@@ -61,12 +61,10 @@ defmodule Riemann.Proto.EventTest do
       %{metric_sint64: int, metric_d: double} = Event.build(metric: 1234.1234)
       assert int == nil
       assert double == 1234.1234
-    end
 
-    test "raises an error with a nil metric" do
-      assert_raise ArgumentError, ~r/no metric provided/i, fn ->
-        Event.build(metric: nil)
-      end
+      assert %{metric_sint64: nil, metric_d: nil} = Event.build(metric: nil)
+
+      assert %{metric_sint64: nil, metric_d: nil} = Event.build(state: "ok")
     end
 
     test "raises an error on invalid metric data types" do

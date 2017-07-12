@@ -76,9 +76,7 @@ defmodule Riemann.Helpers.Event do
   defp set_metric_pb_fields(%{metric: m}) when not is_nil(m) do
     raise InvalidMetricError, metric: m
   end
-  defp set_metric_pb_fields(map) do
-    raise ArgumentError, "no metric provided for #{inspect map}"
-  end
+  defp set_metric_pb_fields(map), do: map
 
   defp event_host_setting do
     Application.get_env(:riemann, :event_host)

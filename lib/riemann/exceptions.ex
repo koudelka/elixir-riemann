@@ -5,7 +5,7 @@ defmodule Riemann.InvalidMetricError do
     metric = Keyword.fetch!(opts, :metric)
 
     msg = """
-    Expected metric to be of type integer or float, but got:
+    Expected metric to be of type integer, float or nil, but got:
 
     #{inspect metric}
     """
