@@ -2,6 +2,7 @@ defmodule RiemannSendTest do
   use ExUnit.Case, async: false
   alias Riemann.Proto.Msg
   alias Riemann.Proto.Event
+  alias Riemann.InvalidMetricError
 
   setup_all do
     Application.start(:gpb)
@@ -57,6 +58,10 @@ defmodule RiemannSendTest do
         service: "riemann-elixir-3",
         metric: 5.123,
         description: "hurr durr dee durr derp"
+      ],
+      [
+        service: "riemann-elixir-4",
+        state: "ok"
       ]
     ]
 
@@ -67,21 +72,29 @@ defmodule RiemannSendTest do
     assert_events_received(events)
   end
 
-  test "send/2 and send_async/1 raise if metric is missing" do
-    events = [
-      [
-        service: "riemann-elixir",
-        attributes: [a: 1],
-        description: "hurr durr"
-      ]
-    ]
-
-    assert_raise ArgumentError, fn ->
-      Riemann.send(events)
+  test "send/2 and send_async/1 with invalid metrics" do
+    assert_raise InvalidMetricError, fn ->
+      Riemann.send(metric: "hello")
     end
 
-    assert_raise ArgumentError, fn ->
-      Riemann.send_async(events)
+    assert_raise InvalidMetricError, fn ->
+      Riemann.send(metric: %{count: 1})
+    end
+
+    assert_raise InvalidMetricError, fn ->
+      Riemann.send(metric: [1, 2, 3])
+    end
+
+    assert_raise InvalidMetricError, fn ->
+      Riemann.send_async(metric: "hello")
+    end
+
+    assert_raise InvalidMetricError, fn ->
+      Riemann.send_async(metric: %{count: 1})
+    end
+
+    assert_raise InvalidMetricError, fn ->
+      Riemann.send_async(metric: [1, 2, 3])
     end
   end
 
