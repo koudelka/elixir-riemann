@@ -1,5 +1,6 @@
 defmodule Riemann.Helpers.Event do
   alias Riemann.Proto.Attribute
+  alias Riemann.InvalidMetricError
 
   defmacro __using__(_opts) do
     quote do
@@ -61,19 +62,22 @@ defmodule Riemann.Helpers.Event do
     event_host_setting() || machine_hostname()
   end
 
-  defp set_attributes_field(map) do
-    case Map.get(map, :attributes) do
-      nil -> map
-      a   -> Map.put(map, :attributes, Attribute.build(a))
-    end
+  defp set_attributes_field(%{attributes: a} = map) when not is_nil(a) do
+    Map.put(map, :attributes, Attribute.build(a))
   end
+  defp set_attributes_field(map), do: map
 
+  defp set_metric_pb_fields(%{metric: i} = map) when is_integer(i) do
+    Map.put(map, :metric_sint64, i)
+  end
+  defp set_metric_pb_fields(%{metric: f} = map) when is_float(f) do
+    Map.put(map, :metric_d, f)
+  end
+  defp set_metric_pb_fields(%{metric: m}) when not is_nil(m) do
+    raise InvalidMetricError, metric: m
+  end
   defp set_metric_pb_fields(map) do
-    case Map.get(map, :metric) do
-      i when is_integer(i) -> Map.put(map, :metric_sint64, i)
-      f when is_float(f)   -> Map.put(map, :metric_d, f)
-      nil -> raise ArgumentError, "no metric provided for #{inspect map}"
-    end
+    raise ArgumentError, "no metric provided for #{inspect map}"
   end
 
   defp event_host_setting do
