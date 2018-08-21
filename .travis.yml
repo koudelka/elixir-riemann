@@ -2,13 +2,12 @@ language: elixir
 dist: trusty
 
 elixir:
-  - 1.4.5
-  - 1.5.1
+  - 1.6.6
+  - 1.7.2
 
 otp_release:
-  - 18.0
-  - 19.3
-  - 20.0
+  - 20.3
+  - 21.0
 
 cache:
   directories:
