@@ -1,12 +1,12 @@
 defmodule Riemann.Mixfile do
   use Mix.Project
 
-  @version "0.1.5"
+  @version "0.1.6"
 
   def project do
     [app: :riemann,
      version: @version,
-     elixir: "~> 1.4",
+     elixir: "~> 1.6",
      deps: deps(),
      aliases: [test: "test --no-start"],
      description: "A client for the Riemann event stream processor",
