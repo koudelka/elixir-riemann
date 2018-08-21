@@ -18,13 +18,17 @@ defmodule Riemann do
       port: address[:port] || 5555
     ]
 
-    children = [
-      Honeydew.queue_spec(:riemann_pool),
-      Honeydew.worker_spec(:riemann_pool, {Riemann.Worker, args})
-    ]
+    :ok = Honeydew.start_queue(:riemann_pool)
+    :ok = Honeydew.start_workers(:riemann_pool, {Riemann.Worker, args})
 
     opts = [strategy: :one_for_one]
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link([], opts)
+  end
+
+  @doc false
+  def stop(_) do
+    :ok = Honeydew.stop_queue(:riemann_pool)
+    :ok = Honeydew.stop_workers(:riemann_pool)
   end
 
   @doc """

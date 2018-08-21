@@ -24,7 +24,7 @@ defmodule Riemann.Mixfile do
   defp deps do
     [
      {:exprotobuf, "~> 1.2"},
-     {:honeydew, "~> 1.1"},
+     {:honeydew, "~> 1.2"},
      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
